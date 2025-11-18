@@ -17,21 +17,19 @@ class Customer:
         self.location = location
         self.money = money
         self.car = Car(car["brand"], car["fuel_consumption"])
-        self.home_location = location[:]
+        self.home_location = location[:]  # копія початкової локації
 
     def distance_to(self, shop_location: List[float]) -> float:
-        x1, y1 = self.location
-        x2, y2 = shop_location
-        return math.dist([x1, y1], [x2, y2])
+        return math.dist(self.location, shop_location)
 
     def products_total(self, shop_products: Dict[str, float]) -> float:
-        total = 0.0
-        for product, qty in self.product_cart.items():
-            total += shop_products[product] * qty
-        return total
+        return sum(
+            shop_products[prod] * qty
+            for prod, qty in self.product_cart.items()
+        )
 
     def go_to(self, location: List[float]) -> None:
         self.location = location[:]
 
     def go_home(self) -> None:
-        self.location = self.home_location[:]
+        self.go_to(self.home_location)
