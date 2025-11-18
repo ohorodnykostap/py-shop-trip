@@ -12,10 +12,7 @@ def shop_trip() -> None:
     customers_data: List[dict] = config["customers"]
     shops_data: List[dict] = config["shops"]
 
-    shops = [
-        Shop(s["name"], s["location"], s["products"])
-        for s in shops_data
-    ]
+    shops = [Shop(s["name"], s["location"], s["products"]) for s in shops_data]
 
     for cust in customers_data:
         customer = Customer(
@@ -26,7 +23,7 @@ def shop_trip() -> None:
             cust["car"],
         )
 
-        print(f"{customer.name} has {customer.money} dollars")
+        print(f"{customer.name} has {round(customer.money, 2)} dollars")
 
         trip_costs = []
         for shop in shops:
@@ -51,9 +48,7 @@ def shop_trip() -> None:
 
         cheapest_shop.print_receipt(customer)
 
-        products_cost = customer.products_total(cheapest_shop.products)
-        customer.money -= products_cost
-        customer.money -= cheapest_cost - products_cost
+        customer.money -= cheapest_cost
 
         print(f"{customer.name} rides home")
         customer.go_home()
